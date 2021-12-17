@@ -23,6 +23,10 @@ public class User {
 		return result;
 	}
 
+	public User() {
+
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -23,7 +23,7 @@ public class Topic {
 	@OneToMany(mappedBy = "topic")
 	private List<Answer> answers = new ArrayList<>();
 
-	public Topic(String title, String message, String course) {
+	public Topic() {
 	}
 
 	public Topic(String title, String message, Course course) {
