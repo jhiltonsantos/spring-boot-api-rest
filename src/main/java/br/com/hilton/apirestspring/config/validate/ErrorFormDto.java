@@ -1,4 +1,4 @@
-package br.com.hilton.config.validate;
+package br.com.hilton.apirestspring.config.validate;
 
 public class ErrorFormDto {
     public String field;

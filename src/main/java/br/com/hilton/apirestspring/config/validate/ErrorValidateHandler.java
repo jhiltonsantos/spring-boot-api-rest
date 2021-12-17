@@ -1,4 +1,4 @@
-package br.com.hilton.config.validate;
+package br.com.hilton.apirestspring.config.validate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,8 +26,8 @@ public class ErrorValidateHandler {
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         fieldErrors.forEach(e -> {
             String message = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-            ErrorFormDto erro = new ErrorFormDto(e.getField(), message);
-            dto.add(erro);
+            ErrorFormDto error = new ErrorFormDto(e.getField(), message);
+            dto.add(error);
         });
         return dto;
 

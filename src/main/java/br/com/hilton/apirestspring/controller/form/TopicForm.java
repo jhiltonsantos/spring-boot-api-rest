@@ -1,5 +1,7 @@
 package br.com.hilton.apirestspring.controller.form;
 
+import br.com.hilton.apirestspring.models.User;
+import br.com.hilton.apirestspring.repository.IUserRepository;
 import br.com.hilton.apirestspring.repository.ICourseRepository;
 import br.com.hilton.apirestspring.models.Course;
 import br.com.hilton.apirestspring.models.Topic;
@@ -16,10 +18,13 @@ public class TopicForm {
     private String message;
     @NotNull @NotEmpty
     private String course;
+    @NotNull @NotEmpty
+    private String author;
 
-    public Topic convert(ICourseRepository courseRepository) {
+    public Topic convert(ICourseRepository courseRepository, IUserRepository authorRepository) {
         Course courseName = courseRepository.findByName(course);
-        return new Topic(title, message, courseName);
+        User authorName = authorRepository.findByName(author);
+        return new Topic(title, message, courseName, authorName);
     }
 
     public String getTitle() {
@@ -44,5 +49,13 @@ public class TopicForm {
 
     public void setCourse(String course) {
         this.course = course;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
