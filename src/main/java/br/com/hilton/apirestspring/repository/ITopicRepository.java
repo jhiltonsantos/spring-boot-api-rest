@@ -1,4 +1,4 @@
-package br.com.hilton.apirestspring.controller.repository;
+package br.com.hilton.apirestspring.repository;
 
 import br.com.hilton.apirestspring.models.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;
