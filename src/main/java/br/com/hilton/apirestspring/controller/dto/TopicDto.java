@@ -1,5 +1,6 @@
 package br.com.hilton.apirestspring.controller.dto;
 import br.com.hilton.apirestspring.models.Topic;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +20,8 @@ public class TopicDto {
         this.dateCreate = topic.getDateCreate();
     }
 
-    public static List<TopicDto> convert(List<Topic> topics) {
-        return topics.stream().map(TopicDto::new).collect(Collectors.toList());
+    public static Page<TopicDto> convert(Page<Topic> topics) {
+        return topics.map(TopicDto::new);
     }
 
     public Long getId() {

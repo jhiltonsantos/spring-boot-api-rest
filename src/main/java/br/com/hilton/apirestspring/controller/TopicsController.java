@@ -9,6 +9,10 @@ import br.com.hilton.apirestspring.models.Topic;
 import br.com.hilton.apirestspring.repository.ITopicRepository;
 import br.com.hilton.apirestspring.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,12 +37,15 @@ public class TopicsController {
     private IUserRepository iAuthorRepository;
 
     @GetMapping
-    public List<TopicDto> listTopics(String course) {
-        List<Topic> topics;
+    public Page<TopicDto> listTopics(@RequestParam(required = false) String course,
+                                     @RequestParam int page, @RequestParam int count, @RequestParam String order) {
+        Pageable pageable = PageRequest.of(page, count, Sort.Direction.ASC, order);
+        Page<Topic> topics;
+
         if (course == null) {
-            topics = iTopicRepository.findAll();
+            topics = iTopicRepository.findAll(pageable);
         } else {
-            topics = iTopicRepository.findByCourse_Name(course);
+            topics = iTopicRepository.findByCourse_Name(course, pageable);
         }
         return TopicDto.convert(topics);
     }
@@ -83,3 +90,16 @@ public class TopicsController {
         return ResponseEntity.notFound().build();
     }
 }
+
+/*
+    @GetMapping
+    public List<TopicDto> listTopics(String course) {
+        List<Topic> topics;
+        if (course == null) {
+            topics = iTopicRepository.findAll();
+        } else {
+            topics = iTopicRepository.findByCourse_Name(course);
+        }
+        return TopicDto.convert(topics);
+    }
+*/
