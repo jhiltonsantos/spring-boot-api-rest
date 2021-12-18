@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -38,10 +39,9 @@ public class TopicsController {
 
     @GetMapping
     public Page<TopicDto> listTopics(@RequestParam(required = false) String course,
-                                     @RequestParam int page, @RequestParam int count, @RequestParam String order) {
-        Pageable pageable = PageRequest.of(page, count, Sort.Direction.ASC, order);
+                                     @PageableDefault(sort = "dateCreate", direction = Sort.Direction.DESC, page = 0, size = 10)
+                                             Pageable pageable) {
         Page<Topic> topics;
-
         if (course == null) {
             topics = iTopicRepository.findAll(pageable);
         } else {
