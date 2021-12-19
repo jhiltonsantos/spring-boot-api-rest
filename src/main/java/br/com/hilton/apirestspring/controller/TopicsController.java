@@ -9,8 +9,9 @@ import br.com.hilton.apirestspring.models.Topic;
 import br.com.hilton.apirestspring.repository.ITopicRepository;
 import br.com.hilton.apirestspring.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -21,7 +22,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,9 +38,9 @@ public class TopicsController {
     private IUserRepository iAuthorRepository;
 
     @GetMapping
-    public Page<TopicDto> listTopics(@RequestParam(required = false) String course,
-                                     @PageableDefault(sort = "dateCreate", direction = Sort.Direction.DESC, page = 0, size = 10)
-                                             Pageable pageable) {
+    @Cacheable(value = "listTopics")
+    public Page<TopicDto> list(@RequestParam(required = false) String course,
+      @PageableDefault(sort = "dateCreate", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable) {
         Page<Topic> topics;
         if (course == null) {
             topics = iTopicRepository.findAll(pageable);
@@ -61,6 +61,7 @@ public class TopicsController {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = "listTopics", allEntries = true)
     public ResponseEntity<TopicDto> register(@RequestBody @Valid TopicForm form, UriComponentsBuilder uriBuilder) {
         Topic topic = form.convert(iCourseRepository, iAuthorRepository);
         iTopicRepository.save(topic);
@@ -70,6 +71,7 @@ public class TopicsController {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "listTopics", allEntries = true)
     public ResponseEntity<TopicDto> update(@PathVariable() Long id, @RequestBody @Valid TopicUpdateForm form) {
         Optional<Topic> optional = iTopicRepository.findById(id);
         if (optional.isPresent()) {
@@ -81,6 +83,7 @@ public class TopicsController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "listTopics", allEntries = true)
     public ResponseEntity<?> remove(@PathVariable() Long id) {
         Optional<Topic> optional = iTopicRepository.findById(id);
         if (optional.isPresent()) {
@@ -90,16 +93,3 @@ public class TopicsController {
         return ResponseEntity.notFound().build();
     }
 }
-
-/*
-    @GetMapping
-    public List<TopicDto> listTopics(String course) {
-        List<Topic> topics;
-        if (course == null) {
-            topics = iTopicRepository.findAll();
-        } else {
-            topics = iTopicRepository.findByCourse_Name(course);
-        }
-        return TopicDto.convert(topics);
-    }
-*/
