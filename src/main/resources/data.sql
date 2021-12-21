@@ -1,4 +1,11 @@
 INSERT INTO USER(name, email, password) VALUES ('Hilton', 'hilton@email.com', '$2a$10$n4X21FiWsMOhgQVibsXnXejmTqEMQYRS.578xWXNIcHZa7.M6XD0O');
+INSERT INTO USER(name, email, password) VALUES ('Moderador', 'moderador@email.com', '$2a$10$n4X21FiWsMOhgQVibsXnXejmTqEMQYRS.578xWXNIcHZa7.M6XD0O');
+
+INSERT INTO PROFILE(id, name) VALUES (1, 'ROLE_STUDENT');
+INSERT INTO PROFILE(id, name) VALUES (2, 'ROLE_MODERATOR');
+
+INSERT INTO USER_PROFILES(user_id, profiles_id) VALUES (1,1);
+INSERT INTO USER_PROFILES(user_id, profiles_id) VALUES (2,2);
 
 
 -- INSERT INTO COURSE(name, category) VALUES ('ADS', 'Tecnologia da Informaçao');
