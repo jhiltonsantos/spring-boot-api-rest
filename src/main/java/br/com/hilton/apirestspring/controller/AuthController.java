@@ -4,6 +4,7 @@ import br.com.hilton.apirestspring.config.security.TokenServices;
 import br.com.hilton.apirestspring.controller.dto.TokenDto;
 import br.com.hilton.apirestspring.controller.form.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController @RequestMapping("/auth")
+@RestController @RequestMapping("/auth") @Profile("prod")
 public class AuthController {
 
     @Autowired
