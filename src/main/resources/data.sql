@@ -7,7 +7,6 @@ INSERT INTO PROFILE(id, name) VALUES (2, 'ROLE_MODERATOR');
 INSERT INTO USER_PROFILES(user_id, profiles_id) VALUES (1,1);
 INSERT INTO USER_PROFILES(user_id, profiles_id) VALUES (2,2);
 
-
 -- INSERT INTO COURSE(name, category) VALUES ('ADS', 'Tecnologia da Informaçao');
 -- INSERT INTO COURSE(name, category) VALUES ('Biologia', 'Ciencias Biologicas');
 -- INSERT INTO COURSE(name, category) VALUES ('Engenharia Mecanica', 'Engenharias');

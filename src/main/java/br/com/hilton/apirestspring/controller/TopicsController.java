@@ -40,7 +40,7 @@ public class TopicsController {
     @GetMapping
     @Cacheable(value = "listTopics")
     public Page<TopicDto> list(@RequestParam(required = false) String course,
-      @PageableDefault(sort = "dateCreate", direction = Sort.Direction.DESC, page = 0, size = 15) Pageable pageable) {
+      @PageableDefault(sort = "dateCreate", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable) {
         Page<Topic> topics;
         if (course == null) {
             topics = iTopicRepository.findAll(pageable);
