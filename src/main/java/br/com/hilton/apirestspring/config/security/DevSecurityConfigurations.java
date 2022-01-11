@@ -21,47 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Profile("dev")
 public class DevSecurityConfigurations extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AuthService authService;
-
-    @Autowired
-    private TokenServices tokenServices;
-
-    @Autowired
-    private IUserRepository userRepository;
-
-    @Override @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // BCrypt para gerar o hash da senha do usuario
-        auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
-
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/topics").permitAll()
-                .antMatchers(HttpMethod.GET, "/topics/*").permitAll()
-                .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/topics/*").hasRole("MODERATOR")
-                .anyRequest().authenticated()
-                .and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AuthTokenFilter(tokenServices, userRepository),
-                        UsernamePasswordAuthenticationFilter.class);
+                .antMatchers("/**").permitAll()
+                .and().csrf().disable();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**",
-                "/swagger-resources/**");
-
-
-    }
 }
