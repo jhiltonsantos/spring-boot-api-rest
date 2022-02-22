@@ -10,14 +10,11 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 @SpringBootApplication
 @EnableSpringDataWebSupport
 @EnableCaching
-public class ApiRestSpringApplication extends SpringBootServletInitializer {
+public class ApiRestSpringApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ApiRestSpringApplication.class, args);
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(ApiRestSpringApplication.class);
-    }
+
 }
